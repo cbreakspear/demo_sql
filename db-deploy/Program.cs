@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Reflection;
 using DbUp;
+using DotNetEnv;
+
 
 namespace AzureSQLDevelopers.Database.Deploy
 {
@@ -8,10 +10,12 @@ namespace AzureSQLDevelopers.Database.Deploy
     {
         static int Main(string[] args)
         {
-            DotNetEnv.Env.Load();
 
-            var connectionString = Environment.GetEnvironmentVariable("ConnectionString");
 
+
+
+            DotNetEnv.Env.Load(Environment.CurrentDirectory + "/" + Env.DEFAULT_ENVFILENAME);   
+            var connectionString = Environment.GetEnvironmentVariable("ConnectionString");   
             var upgrader = DeployChanges.To
                 .SqlDatabase(connectionString)
                 .JournalToSqlTable("dbo", "$__schema_journal")
