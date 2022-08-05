@@ -11,7 +11,7 @@ namespace AzureSQLDevelopers.Database
 {
     public class Tests
     {
-        private string ConnectionString;
+        private string connectionString;
 
         [OneTimeSetUp]
         public void Setup()
@@ -24,7 +24,7 @@ namespace AzureSQLDevelopers.Database
         [Test]
         public void CheckEmptyJSON()
         {                    
-            using(var conn = new SqlConnection(ConnectionString))
+            using(var conn = new SqlConnection(connectionString))
             {
                 var result = conn.ExecuteScalar<string>("web.get_trainingsessionsync", new { @json = "{}" }, commandType: CommandType.StoredProcedure);
                 var jsonResult = JObject.Parse(result);

@@ -12,7 +12,7 @@ namespace AzureSQLDevelopers.Database.Deploy
 
             
                 DotNetEnv.Env.Load(Environment.CurrentDirectory + "/" + Env.DEFAULT_ENVFILENAME);   
-                var connectionString = Environment.GetEnvironmentVariable("ConnectionString");           
+          
           
             
 
