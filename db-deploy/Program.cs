@@ -9,7 +9,6 @@ namespace AzureSQLDevelopers.Database.Deploy
     {
         static int Main(string[] args)
         {
-            DotNetEnv.Env.Load();
 
             
                 DotNetEnv.Env.Load(Environment.CurrentDirectory + "/" + Env.DEFAULT_ENVFILENAME);   
@@ -18,6 +17,10 @@ namespace AzureSQLDevelopers.Database.Deploy
             
 
 
+
+
+            DotNetEnv.Env.Load(Environment.CurrentDirectory + "/" + Env.DEFAULT_ENVFILENAME);   
+            var connectionString = Environment.GetEnvironmentVariable("ConnectionString");   
             var upgrader = DeployChanges.To
                 .SqlDatabase(connectionString)
                 .JournalToSqlTable("dbo", "$__schema_journal")
