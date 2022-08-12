@@ -14,7 +14,7 @@ namespace AzureSQLDevelopers.Database
         private string connectionString;
 
         [OneTimeSetUp]
-        public void Setup()
+        public void Setup()  
         {
             DotNetEnv.Env.Load(Environment.CurrentDirectory + "/" + Env.DEFAULT_ENVFILENAME);   
             connectionString = Environment.GetEnvironmentVariable("ConnectionString");           
