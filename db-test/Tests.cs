@@ -23,7 +23,9 @@ namespace AzureSQLDevelopers.Database
 
         [Test]
         public void CheckEmptyJSON()
-        {                    
+        {  
+            DotNetEnv.Env.Load(Environment.CurrentDirectory + "/" + Env.DEFAULT_ENVFILENAME);   
+            connectionString = Environment.GetEnvironmentVariable("ConnectionString");                  
             using(var conn = new SqlConnection(connectionString))
             {
                 var result = conn.ExecuteScalar<string>("web.get_trainingsessionsync", new { @json = "{}" }, commandType: CommandType.StoredProcedure);
