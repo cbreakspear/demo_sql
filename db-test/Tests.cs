@@ -31,7 +31,7 @@ namespace AzureSQLDevelopers.Database
                  using(var cmd = new SqlCommand("sp_SelectProducts", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@product", SqlDbType.Int).Value = 14;
+                    cmd.Parameters.Add("@product", SqlDbType.Int).Value = 1;
                     conn.Open();
                     var result = cmd.ExecuteScalar().ToString();
                     var jsonResult = result;
