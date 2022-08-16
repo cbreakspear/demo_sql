@@ -35,7 +35,7 @@ namespace AzureSQLDevelopers.Database
                     conn.Open();
                     var result = cmd.ExecuteScalar().ToString();
                     var jsonResult = result;
-                    Assert.AreEqual("15", jsonResult);
+                    Assert.AreEqual("16", jsonResult);
                 }
             
                 
