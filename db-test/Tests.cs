@@ -28,9 +28,17 @@ namespace AzureSQLDevelopers.Database
             connectionString = Environment.GetEnvironmentVariable("ConnectionString");                  
             using(var conn = new SqlConnection(connectionString))
             {
-                var result = conn.ExecuteScalar<string>("web.get_trainingsessionsync", new { @json = "{}" }, commandType: CommandType.StoredProcedure);
-                var jsonResult = JObject.Parse(result);
-                Assert.AreEqual("Full", (string)jsonResult.SelectToken("Metadata.Sync.Type"));
+                 using(var cmd = new SqlCommand("sp_SelectProducts", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@product", SqlDbType.Int).Value = 14;
+                    conn.Open();
+                    var result = cmd.ExecuteScalar().ToString();
+                    var jsonResult = result;
+                    Assert.AreEqual("15", jsonResult);
+                }
+            
+                
             }            
         }           
     }
