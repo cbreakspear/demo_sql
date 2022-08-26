@@ -9,22 +9,44 @@ namespace AzureSQLDevelopers.Database.Deploy
     {
         static int Main(string[] args)
         {  
-
-            DotNetEnv.Env.Load(Environment.CurrentDirectory + "/" + Env.DEFAULT_ENVFILENAME);   
-            var connectionString = Environment.GetEnvironmentVariable("ConnectionString");   
-            var upgrader = DeployChanges.To
-                .SqlDatabase(connectionString)
-                .JournalToSqlTable("dbo", "$__schema_journal")
-                .WithScriptsFromFileSystem("./sql")                                
-                .LogToConsole()
-                .Build();
-
-            var result = upgrader.PerformUpgrade();
-
-            if (!result.Successful)
+            DotNetEnv.Env.Load(Environment.CurrentDirectory + "/" + Env.DEFAULT_ENVFILENAME);
+            var databaseType = Environment.GetEnvironmentVariable("DatabaseType");
+            var sqlconnectionString = Environment.GetEnvironmentVariable("SQLConnectionString");
+            var postgresconnectionString = Environment.GetEnvironmentVariable("PostgresConnectionString");
+             
+            switch(databaseType)
             {
-                Console.WriteLine(result.Error);
-                return -1;
+                
+                case "Postgres":
+                    var upgradersql = DeployChanges.To
+                        .PostgresqlDatabase(postgresconnectionString)
+                        .JournalToPostgresqlTable("public", "$__schema_journal")
+                        .WithScriptsFromFileSystem("./postgres")                                
+                        .LogToConsole()
+                        .Build();
+                    var resultsql = upgradersql.PerformUpgrade();
+                    if (!resultsql.Successful)
+                    {
+                        Console.WriteLine(resultsql.Error);
+                        return -1;
+                    }
+                    break;
+                case "SQL_Server":
+                    var upgraderpostgres = DeployChanges.To
+                        .SqlDatabase(sqlconnectionString)
+                        .JournalToSqlTable("dbo", "$__schema_journal")
+                        .WithScriptsFromFileSystem("./sql")                                
+                        .LogToConsole()
+                        .Build();
+                    var resultpostgres = upgraderpostgres.PerformUpgrade();
+                    if (!resultpostgres.Successful)
+                    {
+                        Console.WriteLine(resultpostgres.Error);
+                        return -1;
+                    }
+                    break;
+                case "My_SQL":
+                break;
             }
 
             Console.WriteLine("Success!");
