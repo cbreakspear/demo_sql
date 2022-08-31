@@ -1,4 +1,4 @@
-# CREATE THE DATABASE SAMPLE OF CI/CD WITH github ACTIONS
+# CREATE THE SQL DATABASE SAMPLE OF CI/CD WITH github ACTIONS
 
 -Create Azure Database and Server (Use Portal or CLI)
 -Add User (SHOWN BELOW)
@@ -13,8 +13,16 @@ ALTER ROLE db_datawriter ADD MEMBER [github_action_user];
 -CREATE THE SQL CONNECTION STRING SECRET in github
 secrets.AZURE_SQL_CONNECTION_STRING
 
+# CREATE THE POSTGRES DATABASE SAMPLE OF CI/CD WITH github ACTIONS
+
+-CREATE THE POSTGRES CONNECTION STRING SECRET in github
+secrets.AZURE_SQL_CONNECTION_STRING
+
 -Change the .env files to match the connection string to the new database
 -Push Code
 -Run Workflow
 
 To test locally run ---  dotnet test
+
+
+
