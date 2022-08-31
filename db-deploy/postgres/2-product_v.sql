@@ -5,7 +5,7 @@ CREATE FUNCTION production.v_SelectProducts(in product integer, OUT product_id i
 RETURNS SETOF record
 AS $$
 BEGIN
-    RETURN QUERY SELECT products.product_name, products.product_id, products.list_price FROM production.products WHERE products.product_id=product;
+    RETURN QUERY SELECT products.product_id, products.product_name, products.list_price FROM production.products WHERE products.product_id=product;
 END;
 $$
 LANGUAGE plpgsql;
