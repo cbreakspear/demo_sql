@@ -41,10 +41,10 @@ namespace AzureSQLDevelopers.Database
                 connectionString = Environment.GetEnvironmentVariable("PostgresConnectionString");
                 using (var conn = new NpgsqlConnection(connectionString))
                 {
-                    using (var cmd = new NpgsqlCommand("production.sp_SelectProducts", conn))
+                    using (var cmd = new NpgsqlCommand("production.v_SelectProducts", conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@product", NpgsqlTypes.NpgsqlDbType.Text).Value = 1;
+                        cmd.Parameters.Add("@product", NpgsqlTypes.NpgsqlDbType.Integer).Value = 1;
                         conn.Open();
                         var result = cmd.ExecuteScalar().ToString();
                         var jsonResult = result;
