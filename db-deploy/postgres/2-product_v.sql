@@ -1,5 +1,5 @@
 
-IF EXISTS DROP FUNCTION production.v_SelectProducts;
+DROP FUNCTION if exists production.v_SelectProducts;
 
 CREATE FUNCTION production.v_SelectProducts(in product integer, OUT product_name varchar(50), OUT product_id int, OUT list_price numeric)
 RETURNS SETOF record
