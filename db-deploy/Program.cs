@@ -2,6 +2,8 @@
 using System.Reflection;
 using DbUp;
 using DotNetEnv;
+using DbUp.MySql;
+using DbUp.Engine.Output;
 
 namespace AzureSQLDevelopers.Database.Deploy
 {
@@ -18,7 +20,7 @@ namespace AzureSQLDevelopers.Database.Deploy
             switch(databaseType)
             {
                 
-                case "Postgres":
+                case "Postgres": // POSTGRES Implementation
                     var upgradersql = DeployChanges.To
                         .PostgresqlDatabase(postgresconnectionString)
                         .JournalToPostgresqlTable("public", "$__schema_journal")
@@ -32,7 +34,7 @@ namespace AzureSQLDevelopers.Database.Deploy
                         return -1;
                     }
                     break;
-                case "SQL_Server":
+                case "SQL_Server": // SQL SERVER Implementation
                     var upgraderpostgres = DeployChanges.To
                         .SqlDatabase(sqlconnectionString)
                         .JournalToSqlTable("dbo", "$__schema_journal")
@@ -46,10 +48,16 @@ namespace AzureSQLDevelopers.Database.Deploy
                         return -1;
                     }
                     break;
-                case "MySQL":
+                case "MySQL": // MYSQL Implementation
+                    //Special case for MYSQL with DBUP. You have  to manually create the Journal
+                     var connectionManager = new MySqlConnectionManager(mysqlconnectionString);
+                     var logger = new ConsoleUpgradeLog();
+                     MySqlTableJournal myJournal = new MySqlTableJournal(() => connectionManager, 
+                        () => logger, "production", "$__schema_journal");
+
                      var upgradermysql = DeployChanges.To
-                        .MySqlDatabase(mysqlconnectionString)
-                        .JournalToSqlTable("dbo", "$__schema_journal")
+                        .MySqlDatabase(connectionManager)
+                        .JournalTo(myJournal)
                         .WithScriptsFromFileSystem("./mysql")                                
                         .LogToConsole()
                         .Build();
@@ -65,5 +73,7 @@ namespace AzureSQLDevelopers.Database.Deploy
             Console.WriteLine("Success!");
             return 0;
         }
+        
+        
     }
 }
