@@ -10,6 +10,7 @@
     <PackageReference Include="DbUp" Version="4.3.0" />
     <PackageReference Include="dbup-postgresql" Version="4.6.3" />
     <PackageReference Include="DotNetEnv" Version="1.4.0" />
+    <PackageReference Include="dbup-mysql" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>

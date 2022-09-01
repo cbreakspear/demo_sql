@@ -13,6 +13,7 @@ namespace AzureSQLDevelopers.Database.Deploy
             var databaseType = Environment.GetEnvironmentVariable("DatabaseType");
             var sqlconnectionString = Environment.GetEnvironmentVariable("SQLConnectionString");
             var postgresconnectionString = Environment.GetEnvironmentVariable("PostgresConnectionString");
+            var mysqlconnectionString = Environment.GetEnvironmentVariable("MySQLConnectionString");
              
             switch(databaseType)
             {
@@ -45,7 +46,19 @@ namespace AzureSQLDevelopers.Database.Deploy
                         return -1;
                     }
                     break;
-                case "My_SQL":
+                case "MySQL":
+                     var upgradermysql = DeployChanges.To
+                        .MySqlDatabase(mysqlconnectionString)
+                        .JournalToSqlTable("dbo", "$__schema_journal")
+                        .WithScriptsFromFileSystem("./mysql")                                
+                        .LogToConsole()
+                        .Build();
+                    var resultmysql = upgradermysql.PerformUpgrade();
+                    if (!resultmysql.Successful)
+                    {
+                        Console.WriteLine(resultmysql.Error);
+                        return -1;
+                    }
                 break;
             }
 
